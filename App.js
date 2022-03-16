@@ -6,43 +6,51 @@ import Home from './Components/Home';
 import SplashScreen from './Components/SplashScreen';
 import Drawer1 from './Components/Drawer';
 import { Text, View } from 'react-native';
-import { createDrawerNavigator }
-  from '@react-navigation/drawer';
+import DetailScreen from './Components/DetailScreen';
+// import { createDrawerNavigator }
+//   from '@react-navigation/drawer';
 const Stack = createStackNavigator();
-const Drawer = createDrawerNavigator();
+// const Drawer = createDrawerNavigator();
 
 
 const App = () => {
-  function NotificationsScreen() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center',
-            justifyContent: 'center' }}>
-      <Text>Notifications Page</Text>
-      </View>
-    );
-    }
+  // function NotificationsScreen() {
+  //   return (
+  //     <View style={{ flex: 1, alignItems: 'center',
+  //           justifyContent: 'center' }}>
+  //     <Text>Notifications Page</Text>
+  //     </View>
+  //   );
+  //   }
     
-    function AboutScreen() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center',
-            justifyContent: 'center' }}>
-      <Text>About Page</Text>
-      </View>
-    );
-    }
+  //   function AboutScreen() {
+  //   return (
+  //     <View style={{ flex: 1, alignItems: 'center',
+  //           justifyContent: 'center' }}>
+  //     <Text>About Page</Text>
+  //     </View>
+  //   );
+  //   }
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Home">
-        <Drawer.Screen name="Home" component={Home} />
-        <Drawer.Screen name="Notifications"
-          component={NotificationsScreen} />
-        <Drawer.Screen name="About" component={AboutScreen} />
-      </Drawer.Navigator>
-      {/* <Stack.Navigator initialRouteName='Splash'>
+  <Stack.Navigator initialRouteName='Splash'>
         <Stack.Screen name='Splash' component={SplashScreen} options={{ headerShown: false }} />
         <Stack.Screen name='Home' component={Home} options={{ headerShown: false }} />
-      </Stack.Navigator> */}
+        <Stack.Screen name='Detail' component={DetailScreen} options={{ headerShown: false }} />
+        {/* <Stack.Screen name='Root' component={Root} options={{ headerShown: false }} /> */}
+      </Stack.Navigator>
     </NavigationContainer>
   );
-}
+  }
+// function Root(){
+//   return(
+//      <Drawer.Navigator >
+//         <Drawer.Screen name="Home" component={Home} />
+//         {/* <Drawer.Screen name="Notifications"
+//           component={NotificationsScreen} />
+//         <Drawer.Screen name="About" component={AboutScreen} /> */}
+//       </Drawer.Navigator> 
+//   );
+// }
+
 export default App;
