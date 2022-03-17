@@ -7,4 +7,5 @@ import App from './App';
 import 'react-native-gesture-handler'
 import {name as appName} from './app.json';
 import DetailScreen from './Components/DetailScreen';
-AppRegistry.registerComponent(appName, () =>App);
+import Cart from './Components/Cart';
+AppRegistry.registerComponent(appName, () =>App );

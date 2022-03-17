@@ -7,6 +7,7 @@ import SplashScreen from './Components/SplashScreen';
 import Drawer1 from './Components/Drawer';
 import { Text, View } from 'react-native';
 import DetailScreen from './Components/DetailScreen';
+import Cart from './Components/Cart';
 // import { createDrawerNavigator }
 //   from '@react-navigation/drawer';
 const Stack = createStackNavigator();
@@ -37,6 +38,7 @@ const App = () => {
         <Stack.Screen name='Splash' component={SplashScreen} options={{ headerShown: false }} />
         <Stack.Screen name='Home' component={Home} options={{ headerShown: false }} />
         <Stack.Screen name='Detail' component={DetailScreen} options={{ headerShown: false }} />
+        <Stack.Screen name='Cart' component={Cart} options={{ headerShown: false }} />
         {/* <Stack.Screen name='Root' component={Root} options={{ headerShown: false }} /> */}
       </Stack.Navigator>
     </NavigationContainer>

@@ -2,8 +2,12 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { useEffect } from 'react/cjs/react.production.min';
 
 const DATA = [
+    {
+        title: 'All'
+    },
     {
         title: 'electronics'
     },
@@ -118,7 +122,7 @@ const DATA1 = [
         category: "mens-clothings",
         price: "10"
     },
-{
+    {
         createdAt: "2022-03-14T02:38:07.997Z",
         name: "Samsung S21 Ultra",
         avatar: "https://cdn.dxomark.com/wp-content/uploads/medias/post-73910/samsung_galaxy_s21_ultra-1024x768.jpg",
@@ -174,19 +178,34 @@ const DATA1 = [
 
 
 
-const Home = ({navigation}) => {
-    const [key, setKey] = useState(0)
+const Home = ({ navigation }) => {
+    const [key, setKey] = useState(0);
+    const [randomNo,setRandomNo]=useState(Math.random());
 
-    const selected = (index) => {
-        setKey(index)
+const[filteredData,setFilteredData]=useState(DATA1);
+
+    const selected = (index,title) => {
+        setKey(index);
+        if(title==="All"){
+            setFilteredData(DATA1);
+            setRandomNo();
+        }else{
+            const FiltereData= DATA1.filter(function(item){
+                return item.category == title;
+             }).map(function({ name,avatar,price}){
+                 return {name,avatar,price};
+             })
+             setFilteredData(FiltereData);
+        }
+        setRandomNo();  
     }
-const goToWishList =()=>{
-    navigation.navigate('Detail')
-}
+    const goToWishList = () => {
+        navigation.navigate('Detail')
+    }
     return (
         <View style={{ flex: 1 }}>
-           <View style={{ backgroundColor: '#F5F5F5', height: hp(9), justifyContent: 'center',borderBottomColor:'#3f46ad',borderBottomWidth:2 }}>
-                <Text style={{ textAlign: 'center', fontSize: 28, color: '#3f46ad',fontWeight:'bold' }}>Home</Text>
+            <View style={{ backgroundColor: '#F5F5F5', height: hp(9), justifyContent: 'center', borderBottomColor: '#3f46ad', borderBottomWidth: 2 }}>
+                <Text style={{ textAlign: 'center', fontSize: 28, color: '#3f46ad', fontWeight: 'bold' }}>Home</Text>
             </View>
             <View style={{ marginTop: hp(2), }}>
                 <FlatList
@@ -196,7 +215,7 @@ const goToWishList =()=>{
                     renderItem={({ item, index }) => {
                         return (
                             <View style={{ borderColor: '#3f46ad', borderRadius: 15, marginHorizontal: wp(1), borderWidth: 2, padding: wp(2), backgroundColor: key === index ? '#3f46ad' : 'white' }}>
-                                <TouchableOpacity onPress={() => selected(index)}>
+                                <TouchableOpacity onPress={() => selected(index,item.title)}>
                                     <Text style={{ color: key === index ? 'white' : '#3f46ad', fontSize: 16, }}>{item.title}</Text>
                                 </TouchableOpacity>
                             </View>
@@ -204,23 +223,24 @@ const goToWishList =()=>{
                     }}
                 />
             </View>
-            <View style={{ marginTop: hp(2), flex:1,alignSelf:'center'}}>
+            <View style={{ marginTop: hp(2), flex: 1, alignSelf: 'center' }}>
                 <FlatList
                     showsVerticalScrollIndicator={false}
                     numColumns={2}
-                    data={DATA1}
+                    data={filteredData}
+                  
                     renderItem={({ item, index }) => {
                         return (
-                            <View style={{ borderColor: 'white',  borderRadius: 10, borderWidth: 2 ,margin:wp(4)}}>
-                               <TouchableOpacity onPress={()=>goToWishList()}>
-                                <Image resizeMode='contain' style={{ width: wp(40), height: hp(30), borderRadius: 10 }} source={{ uri: item.avatar }}></Image>
-                                <View style={{ backgroundColor: '#3f46ad', borderRadius: 10, borderColor: '#3f46ad', borderWidth: 2 }}>
-                                    <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'white',textAlign:'center' }}>{item.name}</Text>
-                                </View>
-                                <View style={{ backgroundColor: 'black',marginTop:wp(1) ,borderRadius: 10, borderColor: 'black', borderWidth: 2 }}>
-                                <Text style={{textAlign:'center',marginLeft:wp(4),fontSize: 11,  width: wp(30), color: 'white' }}>Prices: {item.price}</Text>
-                            </View>
-                            </TouchableOpacity>
+                            <View style={{ borderColor: 'white', borderRadius: 10, borderWidth: 2, margin: wp(4) }}>
+                                <TouchableOpacity onPress={() => navigation.navigate('Detail', { item })}>
+                                    <Image resizeMode='contain' style={{ width: wp(40), height: hp(30), borderRadius: 10 }} source={{ uri: item.avatar }}></Image>
+                                    <View style={{ backgroundColor: '#3f46ad', borderRadius: 10, borderColor: '#3f46ad', borderWidth: 2 }}>
+                                        <Text style={{ fontSize: 14, fontWeight: 'bold', color: 'white', textAlign: 'center' }}>{item.name}</Text>
+                                    </View>
+                                    <View style={{ backgroundColor: 'black', marginTop: wp(1), borderRadius: 10, borderColor: 'black', borderWidth: 2 }}>
+                                        <Text style={{ textAlign: 'center', marginLeft: wp(1), fontSize: 11, width: wp(30), color: 'white' }}>Prices: {item.price}</Text>
+                                    </View>
+                                </TouchableOpacity>
                             </View>
                         )
                     }} />

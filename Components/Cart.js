@@ -1,10 +1,21 @@
-import React, { useState ,useCallback,} from 'react';
+import React, { useState ,useCallback,useEffect} from 'react';
 import { StyleSheet, Text, View, Image,ScrollView ,FlatList,} from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Cart=({navigation,route})=>{
+    const [savedValue,setSavedValue]=useState([])
+
+    useEffect(()=>{
+    AsyncStorage.getItem('SavedData').then((res)=>{
+      if(res != null)
+      {
+        setSavedValue(JSON.parse(res))
+      }
+    })
+    },[])  
+
     const [num,setNum]=useState(1);
     const incNum=()=>{
         if(num<10){
@@ -42,6 +53,7 @@ const Cart=({navigation,route})=>{
            <View>
                <FlatList
                data={DATA}
+            //    data={[...savedValue]}
                showsHorizontalScrollIndicator={false}
                renderItem={({item,index})=>{
                    return(
