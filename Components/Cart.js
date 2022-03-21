@@ -3,15 +3,19 @@ import { StyleSheet, Text, View, Image,ScrollView ,FlatList,} from 'react-native
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import styles from './StyleSheet';
 
 const Cart=({navigation,route})=>{
     const [savedValue,setSavedValue]=useState([])
 
     useEffect(()=>{
-    AsyncStorage.getItem('SavedData').then((res)=>{
-      if(res != null)
+    AsyncStorage.getItem('SavedData').then((value)=>{
+      if(value != null)
       {
-        setSavedValue(JSON.parse(res))
+
+        //   console.log('sofa',value)
+         
+        setSavedValue(JSON.parse(value))
       }
     })
     },[])  
@@ -47,28 +51,28 @@ const Cart=({navigation,route})=>{
         
 <View style={{flex:1,}}>
   
-  <View style={{ backgroundColor: '#F5F5F5', height: hp(9), justifyContent: 'center',borderBottomColor:'#3f46ad',borderBottomWidth:2 }}>
-               <Text style={{ textAlign: 'center', fontSize: 28, color: '#3f46ad' ,fontWeight:'bold'}}>Shopping Cart</Text>
+  <View style={styles.cartView}>
+               <Text style={styles.cartText}>Shopping Cart</Text>
            </View>
-           <View>
+           <View style={{flex:1}}>
                <FlatList
-               data={DATA}
-            //    data={[...savedValue]}
+            //    data={DATA}
+               data={[...savedValue]}
                showsHorizontalScrollIndicator={false}
                renderItem={({item,index})=>{
                    return(
-                       <View style={{flexDirection:'row',margin:wp(2),}}>
-                <Image resizeMode='contain' source={item.src} style={{width:wp(30),height:hp(20)}}></Image>
+                       <View style={styles.Viewmain}>
+                <Image resizeMode='contain' source={{uri:item.avatar}} style={styles.Image}></Image>
                            <View>
-                           <Text style={{fontSize:20,fontWeight:'bold',color:'#3f46ad',marginLeft:wp(3),marginTop:hp(1),width:wp(100)}}>{item.title}</Text>
-                           <Text style={{fontSize:20,fontWeight:'bold',color:'black',marginLeft:wp(3),marginTop:hp(1),width:wp(100)}}>Rs{item.Prices}</Text>
-                         <View style={{flexDirection:'row',margin:wp(2)}}>
-                         <TouchableOpacity onPress={incNum} style={{backgroundColor:'#3f46ad',borderRadius:20,marginRight:wp(3)}}>
-                             <Text style={{color:'white',margin:wp(2)}}>+</Text>
+                           <Text style={styles.nameTExt}>{item.name}</Text>
+                           <Text style={styles.priceText}>Rs {item.price}</Text>
+                         <View style={styles.TouchView1}>
+                         <TouchableOpacity onPress={incNum} style={styles.Touch1}>
+                             <Text style={styles.plusText}>+</Text>
                          </TouchableOpacity>
-                       <Text style={{fontSize:20,color:'black',marginRight:wp(3)}}>{num}</Text>
-                         <TouchableOpacity style={{backgroundColor:'#3f46ad',borderRadius:20,}} onPress={decNum}>
-                             <Text style={{color:'white',margin:wp(2),}}>-</Text>
+                       <Text style={styles.num}>{num}</Text>
+                         <TouchableOpacity style={styles.Touch2} onPress={decNum}>
+                             <Text style={styles.minusText}>-</Text>
                          </TouchableOpacity>
                           </View>
                         </View>
@@ -77,14 +81,14 @@ const Cart=({navigation,route})=>{
                }}
                />
            </View>
-          
-           <View style={{alignSelf:'center',bottom:20,position:'absolute',zIndex:1,}}>
-     <TouchableOpacity style={{borderColor: '#3f46ad',  borderRadius: 10, borderWidth: 2,}}>
-         <Text style={{color:'white',fontSize:20,backgroundColor:'#3f46ad',padding:wp(2)}}>Checkout</Text>
+           <View style={styles.cartView}>
+           <View style={styles.ButttonView}>
+     <TouchableOpacity style={styles.Buttontouch}>
+         <Text style={styles.buttonText}>Checkout</Text>
      </TouchableOpacity>
      
  </View>
-            {/* <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white',textAlign:'center' }}>{route.params.item.name}</Text> */}
+ </View>    
            </View>
     )
 }
